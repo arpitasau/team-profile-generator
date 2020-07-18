@@ -11,68 +11,77 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+// Array to hold the team members
 const team = [];
+//These are the choices displayed in CLI
 const choices = ['Manager', 'Engineer', 'Intern', '-Done-'];
 
+//This function is to validate that user added something when prompted
+const validateInput = function(input){
+    if(input === ''){
+        return "Please add text to this field"
+    }
+    return true
+};
+
+//Prompts to add new team member
 const questions = [
     {
         type: 'list',
-        message: 'Add Employee as-',
+        message: 'To add employee please select a value from the list',
         name: 'type',
         choices: choices
     },
     {
         type: 'input',
-        message: "Enter Employee's Name:",
+        message: "What is the name of the employee?",
         name: 'name',
         default: 'First Name Last Name',
         when: response => response.type !== '-Done-',
-        validate: response => (response.length > 0) || "Name can't be blank"
+        validate: validateInput
     },
     {
         type: 'input',
-        message: 'Enter employee ID:',
+        message: 'Please enter employee ID:',
         name: 'id',
         when: response => response.type !== '-Done-',
-        validate: response => (parseInt(response) > 0) || 'Please enter a valid ID'
+        validate: validateInput
     },
     {
         type: 'input',
-        message: "Enter employee's email:",
+        message: "Please enter employee's email:",
         name: 'email',
-        default: 'email@email.com',
+        default: 'employee@email.com',
         when: response => response.type !== '-Done-',
-        validate: response => (/\S+@\S+\.\S+/.test(response)) || 'Please enter a valid email'
+        validate: validateInput
     },
     {
         type: 'input',
-        message: 'Enter office number:',
+        message: 'Please enter office number:',
         name: 'office',
         when: response => response.type !== '-Done-' && response.type === 'Manager',
-        validate: response => (parseInt(response) > 0) || 'Please enter a valid number'
+        validate: validateInput
     },
     {
         type: 'input',
-        message: 'Enter GitHub username:',
+        message: 'Please enter GitHub username:',
         name: 'github',
         default: 'Username',
         when: response => response.type !== '-Done-' && response.type === 'Engineer',
-        validate: response => (response.length > 0) || "Name can't be blank"
+        validate: validateInput
     },
     {
         type: 'input',
-        message: 'Enter school name:',
+        message: 'Please enter school name:',
         name: 'school',
         default: 'School Name',
         when: response => response.type !== '-Done-' && response.type === 'Intern',
-        validate: response => (response.length > 0) || "School name can't be blank"
+        validate: validateInput
     }
 ];
 
-// function to prompt user
-const prompt = () => inquirer.prompt(questions).then(response => {
+// If response is not '-Done-' logic will enter the if/else if blocks and call the prompt function again. If response= '-Done-' the output file will be generated. Once Manager is added the option will be deleted.
+const renderQuestions = () => inquirer.prompt(questions).then(response => {
     if (response.type !== '-Done-') {
         if (response.type === 'Manager') {
             team.push(new Manager(response.name, response.id, response.email, response.office));
@@ -82,8 +91,8 @@ const prompt = () => inquirer.prompt(questions).then(response => {
         } else if (response.type === 'Intern') {
             team.push(new Intern(response.name, response.id, response.email, response.school));
         }
-        prompt();
-        // render the team html and output to a file
+        renderQuestions();
+        // render the team html and output to a file(if there is no output dir,then new one will be created, if output dir is present, then team.html will be updated.)
     } else {
         if (!fs.existsSync(OUTPUT_DIR)) {
             fs.mkdirSync(OUTPUT_DIR);
@@ -93,4 +102,4 @@ const prompt = () => inquirer.prompt(questions).then(response => {
 });
 
 // calling function prompt
-prompt();
+renderQuestions();
