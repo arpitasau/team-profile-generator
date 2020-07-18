@@ -18,10 +18,11 @@ This is a command line application that generates HTML page to view the team mem
 <img src="/assets/cli.png">
 
 ## Technologies Used
-HTML
-CSS - Bootstrap Framework
-JavaScript
-Node JS
+* HTML
+* CSS - Bootstrap Framework
+* JavaScript
+* Node JS
+* npm package inquirer, jest(unit test framework), chalk
 
 ## Video Walkthrough
 
