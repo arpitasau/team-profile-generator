@@ -2,14 +2,13 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
+const render = require("./lib/htmlRenderer");
+const chalk = require("chalk");
 const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
-
-const render = require("./lib/htmlRenderer");
-
 
 // Array to hold the team members
 const team = [];
@@ -28,13 +27,13 @@ const validateInput = function(input){
 const questions = [
     {
         type: 'list',
-        message: 'To add employee please select a value from the list',
+        message: chalk.blueBright.bold('To add employee please select a value from the list'),
         name: 'type',
         choices: choices
     },
     {
         type: 'input',
-        message: "What is the name of the employee?",
+        message: chalk.redBright.bold('What is the name of the employee?'),
         name: 'name',
         default: 'First Name Last Name',
         when: response => response.type !== '-Done-',
@@ -42,14 +41,14 @@ const questions = [
     },
     {
         type: 'input',
-        message: 'Please enter employee ID:',
+        message: chalk.redBright.bold('Please enter employee ID:'),
         name: 'id',
         when: response => response.type !== '-Done-',
         validate: validateInput
     },
     {
         type: 'input',
-        message: "Please enter employee's email:",
+        message: chalk.redBright.bold("Please enter employee's email:"),
         name: 'email',
         default: 'employee@email.com',
         when: response => response.type !== '-Done-',
@@ -57,14 +56,14 @@ const questions = [
     },
     {
         type: 'input',
-        message: 'Please enter office number:',
+        message: chalk.redBright.bold('Please enter office number:'),
         name: 'office',
         when: response => response.type !== '-Done-' && response.type === 'Manager',
         validate: validateInput
     },
     {
         type: 'input',
-        message: 'Please enter GitHub username:',
+        message: chalk.redBright.bold('Please enter GitHub username:'),
         name: 'github',
         default: 'Username',
         when: response => response.type !== '-Done-' && response.type === 'Engineer',
@@ -72,7 +71,7 @@ const questions = [
     },
     {
         type: 'input',
-        message: 'Please enter school name:',
+        message: chalk.redBright.bold('Please enter school name:'),
         name: 'school',
         default: 'School Name',
         when: response => response.type !== '-Done-' && response.type === 'Intern',
