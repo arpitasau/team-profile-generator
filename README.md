@@ -26,7 +26,8 @@ This is a command line application that generates HTML page to view the team mem
 
 ## Video Walkthrough
 
-<a href="https://drive.google.com/file/d/1qidJLeSnqJ-JVyg0IIlN-enG9bk5NIqG/view" target="_blank">Please click here to see the video</a>
+<a href="https://drive.google.com/file/d/1qidJLeSnqJ-JVyg0IIlN-enG9bk5NIqG/view?usp=sharing" target="_blank">Please click here to see the video</a>
+
 
 
 ## Table of contents
